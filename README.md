@@ -1,73 +1,62 @@
-# React + TypeScript + Vite
+# Warehouse & POS Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern desktop application for inventory management and point-of-sale (POS), built to run natively on Mac and Windows using Electron.
 
-Currently, two official plugins are available:
+## 🌟 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **📦 Inventory Management**: Add, edit, and organize products. Automatically compresses product images to save disk space and loads dynamically generated categories. Features image zooming and soft-deletion protection.
+- **💳 Point of Sale (POS)**: Seamlessly checkout products, apply discounts, and generate order totals through an intuitive cart interface.
+- **📊 Dashboard & Reports**: View live business statistics (total revenue, product counts, out-of-stock warnings) and export comprehensive paginated sales reports to Excel (`.xlsx`), with an expandable breakdown for specific sold products.
+- **👥 Employee Management**: Add and manage employee details, roles, and status through a built-in staff directory.
+- **💾 Local SQLite Database**: All data is securely stored locally on the machine for offline capability without needing a central server. Handles complex table relations natively.
 
-## React Compiler
+## 🛠 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: [Electron](https://www.electronjs.org/) (Desktop runtime)
+- **Frontend**: [React 18](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/)
+- **Database**: [SQLite](https://www.sqlite.org/) (via `better-sqlite3`) and [Drizzle ORM](https://orm.drizzle.team/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Utilities**: `browser-image-compression` (Image sizing), `react-router-dom` (Routing), `xlsx` (Excel exports)
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Make sure you have [Node.js](https://nodejs.org/) installed along with `npm`.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository.
+2. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running Locally
+
+To run the application in development mode with hot-reloading:
+
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+_Note: In development, the application will automatically launch an Electron window and open the Chrome DevTools so you can inspect network calls or UI elements._
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Building for Production
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+To package the app for distribution:
+
+```bash
+npm run build
 ```
+
+## 🗄 Database Management
+
+The application creates and connects to a local persistent SQLite database (`warehouse.db`).
+
+- **In Development**: The database is stored inside the local project folder.
+- **In Production**: The database is saved inside the official AppData / Application Support directory for the user's OS:
+  - **Mac**: `~/Library/Application Support/warehouse-app/warehouse.db`
+  - **Windows**: `%APPDATA%\warehouse-app\warehouse.db`
+
+_Note: We utilize Write-Ahead Logging (WAL) in SQLite to resolve busy-lock issues during concurrent read/write actions. You may notice `warehouse.db-wal` or `warehouse.db-shm` files automatically generated in the same directory._
