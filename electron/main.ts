@@ -27,7 +27,9 @@ function createWindow() {
     },
   })
 
-  initializeDatabase(join(app.getPath('userData'), 'warehouse.db'));
+  const isTestEnv = process.env.NODE_ENV === 'test';
+  const dbName = isTestEnv ? 'test-warehouse.db' : 'warehouse.db';
+  initializeDatabase(join(app.getPath('userData'), dbName));
 
 
   // --- Image Handling IPC ---

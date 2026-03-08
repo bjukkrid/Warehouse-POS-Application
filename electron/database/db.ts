@@ -9,10 +9,13 @@ const __dirname = dirname(__filename);
 
 let dbPath;
 
+const isTestEnv = process.env.NODE_ENV === 'test';
+const dbName = isTestEnv ? 'test-warehouse.db' : 'warehouse.db';
+
 if (app) {
-  dbPath = join(app.getPath('userData'), 'warehouse.db');
+  dbPath = join(app.getPath('userData'), dbName);
 } else {
-  dbPath = join(__dirname, '../warehouse.db');
+  dbPath = join(__dirname, '../', dbName);
 }
 
 const sqlite = new Database(dbPath);

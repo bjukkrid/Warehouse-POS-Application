@@ -35,3 +35,9 @@ release
 *.db
 *.db-wal
 *.db-shm
+
+# Playwright Test Outputs
+playwright-report/
+test-results/
+playwright/.cache/
+*.png
