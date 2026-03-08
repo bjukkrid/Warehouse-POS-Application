@@ -3,6 +3,8 @@ import { Search, ShoppingBag, Trash2, ArrowRight } from "lucide-react";
 import { InventoryService } from "../services/inventory.service";
 import { EmployeeService } from "../services/employee.service";
 import type { Employee } from "../services/employee.service";
+import { IPC_EVENTS } from "../../shared/ipc-events";
+
 interface Product {
   id: number;
   name: string;
@@ -178,7 +180,10 @@ export default function POS() {
     // @ts-ignore
     if (window.ipcRenderer) {
       // @ts-ignore
-      const res = await window.ipcRenderer.invoke("process-checkout", payload);
+      const res = await window.ipcRenderer.invoke(
+        IPC_EVENTS.PROCESS_CHECKOUT,
+        payload,
+      );
       if (res.success) {
         alert("Checkout Successful! Order #" + res.saleId);
         setCart([]);

@@ -1,3 +1,5 @@
+import { IPC_EVENTS } from "../../shared/ipc-events";
+
 export interface Employee {
   id?: number;
   name: string;
@@ -18,7 +20,7 @@ export class EmployeeService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('get-employees', search);
+        return await window.ipcRenderer.invoke(IPC_EVENTS.GET_EMPLOYEES, search);
       } else {
         return [
           { id: 1, name: "Alex Johnson", role: "Manager", passcode: "1234", discountLimit: 20, status: "Active" },
@@ -47,7 +49,7 @@ export class EmployeeService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('get-employees-paginated', params);
+        return await window.ipcRenderer.invoke(IPC_EVENTS.GET_EMPLOYEES_PAGINATED, params);
       }
       return {
         data: [],
@@ -70,7 +72,7 @@ export class EmployeeService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('get-employee', id);
+        return await window.ipcRenderer.invoke(IPC_EVENTS.GET_EMPLOYEE, id);
       }
       return null;
     } catch (error) {
@@ -87,7 +89,7 @@ export class EmployeeService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        const res = await window.ipcRenderer.invoke('add-employee', data);
+        const res = await window.ipcRenderer.invoke(IPC_EVENTS.ADD_EMPLOYEE, data);
         return res[0];
       }
       return null;
@@ -105,7 +107,7 @@ export class EmployeeService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        const res = await window.ipcRenderer.invoke('update-employee', id, data);
+        const res = await window.ipcRenderer.invoke(IPC_EVENTS.UPDATE_EMPLOYEE, id, data);
         return res[0];
       }
       return null;
@@ -123,7 +125,7 @@ export class EmployeeService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        await window.ipcRenderer.invoke('delete-employee', id);
+        await window.ipcRenderer.invoke(IPC_EVENTS.DELETE_EMPLOYEE, id);
         return true;
       }
       return false;

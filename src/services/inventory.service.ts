@@ -1,3 +1,5 @@
+import { IPC_EVENTS } from "../../shared/ipc-events";
+
 export interface GetPaginatedProductsParams {
   page?: number;
   limit?: number;
@@ -26,7 +28,7 @@ export class InventoryService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        const response = await window.ipcRenderer.invoke('get-products-paginated', params);
+        const response = await window.ipcRenderer.invoke(IPC_EVENTS.GET_PRODUCTS_PAGINATED, params);
         return response;
       } else {
         // Fallback for non-electron env (browser mode testing)
@@ -56,7 +58,7 @@ export class InventoryService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('add-product', data);
+        return await window.ipcRenderer.invoke(IPC_EVENTS.ADD_PRODUCT, data);
       }
       return null;
     } catch (error) {
@@ -73,7 +75,7 @@ export class InventoryService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('save-product-images', images);
+        return await window.ipcRenderer.invoke(IPC_EVENTS.SAVE_PRODUCT_IMAGES, images);
       }
       return [];
     } catch (error) {
@@ -90,7 +92,7 @@ export class InventoryService {
         // @ts-ignore
         if (window.ipcRenderer) {
           // @ts-ignore
-          await window.ipcRenderer.invoke('delete-product', id);
+          await window.ipcRenderer.invoke(IPC_EVENTS.DELETE_PRODUCT, id);
           return true;
         }
         return false;
@@ -108,7 +110,7 @@ export class InventoryService {
         // @ts-ignore
         if (window.ipcRenderer) {
           // @ts-ignore
-          await window.ipcRenderer.invoke('delete-products', ids);
+          await window.ipcRenderer.invoke(IPC_EVENTS.DELETE_PRODUCTS, ids);
           return true;
         }
         return false;
@@ -126,7 +128,7 @@ export class InventoryService {
         // @ts-ignore
         if (window.ipcRenderer) {
           // @ts-ignore
-          return await window.ipcRenderer.invoke('get-product', id);
+          return await window.ipcRenderer.invoke(IPC_EVENTS.GET_PRODUCT, id);
         }
         return null;
     } catch (error) {

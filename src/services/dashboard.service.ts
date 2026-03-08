@@ -1,3 +1,5 @@
+import { IPC_EVENTS } from "../../shared/ipc-events";
+
 export interface DashboardStats {
   totalSales: number;
   transactions: number;
@@ -12,7 +14,7 @@ export class DashboardService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('get-dashboard-stats');
+        return await window.ipcRenderer.invoke(IPC_EVENTS.GET_DASHBOARD_STATS);
       }
       return {
         totalSales: 0,

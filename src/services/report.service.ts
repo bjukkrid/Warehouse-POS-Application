@@ -1,3 +1,5 @@
+import { IPC_EVENTS } from "../../shared/ipc-events";
+
 export interface SaleItem {
   saleId: number;
   productId: number;
@@ -34,7 +36,7 @@ export class ReportService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('get-sales-paginated', params);
+        return await window.ipcRenderer.invoke(IPC_EVENTS.GET_SALES_PAGINATED, params);
       }
       return {
         data: [],
@@ -57,7 +59,7 @@ export class ReportService {
       // @ts-ignore
       if (window.ipcRenderer) {
         // @ts-ignore
-        return await window.ipcRenderer.invoke('get-all-sales-for-export');
+        return await window.ipcRenderer.invoke(IPC_EVENTS.GET_ALL_SALES_FOR_EXPORT);
       }
       return [];
     } catch (error) {

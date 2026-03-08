@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import imageCompression from "browser-image-compression";
 import { InventoryService } from "../services/inventory.service";
+import { IPC_EVENTS } from "../../shared/ipc-events";
 
 interface ImageData {
   id: string;
@@ -247,7 +248,7 @@ export default function EditProduct() {
       if (window.ipcRenderer && id) {
         // @ts-ignore
         await window.ipcRenderer.invoke(
-          "update-product",
+          IPC_EVENTS.UPDATE_PRODUCT,
           parseInt(id, 10),
           payload,
         );
